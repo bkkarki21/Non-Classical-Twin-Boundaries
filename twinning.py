@@ -147,7 +147,7 @@ def OR_NCtwins(K1,eta1,rPm,a):
     rS[2,2] = 1 + s * rl[2] * rm[2] #i=0,j=2
     
     ## Orientation relationship in R-frame
-    rL = C @ inv(rS)
+    rL = rPm @ C @ inv(rPm) @ inv(rS)
     return rL
 
 #################################################################################################
