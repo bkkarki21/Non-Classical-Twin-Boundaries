@@ -36,6 +36,8 @@ def angleTBpair(rPm, k1_m,k2_m):
 
 ## latticevectors_ab plots lattice vectors a and b in the plane (R-frame)
 def latticevectors_ab(rPm):
+    
+    rPm = np.asarray(rPm)
 
     ## Plot lattice vectors a and b in the plane
     fig, ax = plt.subplots() #define figure and axes
@@ -110,7 +112,15 @@ def rotationmatrix(r,theta):
 #################################################################################################
 
 ## OR_NCtwins calculates the OR in the R-frame
-def OR_NCtwins(K1,eta1,rPm,a):
+def OR_NCtwins(K1,eta1,rPm,a,normal_pos=True):
+    
+    # convert to array
+    K1 = np.squeeze(np.asarray(K1))
+    eta1 = np.squeeze(np.asarray(eta1))
+    rPm = np.asarray(rPm)
+    
+    if normal_pos == False:
+        eta1 = -eta1
     
     ## metric tensor
     X = rPm * a #revert the scale used in rPm
