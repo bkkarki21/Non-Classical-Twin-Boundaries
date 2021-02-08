@@ -164,8 +164,10 @@ def OR_NCtwins(K1,eta1,rPm,a,normal_pos=True):
     eta1 = np.squeeze(np.asarray(eta1))
     rPm = np.asarray(rPm)
     
+    # convert K1 and eta1 if plane normal is not positive
     if normal_pos == False:
         eta1 = -eta1
+        K1 = -K1
     
     ## metric tensor
     X = rPm * a #revert the scale used in rPm
