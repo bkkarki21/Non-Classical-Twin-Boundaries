@@ -12,9 +12,20 @@ from matplotlib import pyplot as plt
 #################################################################################################
 #################################################################################################
 
-## angleTBpair calculates angle between a TB pair.
-
 def angleTBpair(rPm, k1_m,k2_m):
+    """
+    Calulcates angle between two given planes.
+    
+    Parameters
+    ----------
+    rPm: numpy.ndarray(3,3), transformation matrix (crystal frame ↔ reference frame)
+    k1_m: numpy.ndarray(1,3), plane 1 in crystal frame
+    k2_m: numpy.ndarray(1,3), plane 2 in crystal frame
+    
+    Returns
+    -------
+    float, angles in degrees
+    """
     
     ## plane normal in reference frame
     k1_r = k1_m @ inv(rPm)
@@ -36,6 +47,18 @@ def angleTBpair(rPm, k1_m,k2_m):
 
 ## latticevectors_ab plots lattice vectors a and b in the plane (R-frame)
 def latticevectors_ab(rPm):
+    """
+    Plots lattice vectors aₘ and bₘ
+    Assumptions: cₘ is orthogonal to both aₘ and bₘ
+    
+    Parameters
+    ----------
+    rPm: numpy.ndarray(3,3), transformation matrix (crystal frame ↔ reference frame)
+    
+    Returns
+    -------
+    plot, returns quiver plot of aₘ and bₘ
+    """
     
     rPm = np.asarray(rPm)
 
@@ -69,12 +92,19 @@ def latticevectors_ab(rPm):
 #################################################################################################
 #################################################################################################
 
-## rotationmatrix calculates the matrix that defines theta rotation about the r axis (R-frame)
 def rotationmatrix(r,theta):
+    """
+    Returns rotation matrix in cartesian coordinates
     
-    ## NOTE:
-        #theta is in radian
-        #r need not be unit vector
+    Parameters
+    ----------
+    r: numpy.ndarray(3,1), axis of rotation in reference frame
+    theta: float, rotation angle in radians
+    
+    Returns
+    -------
+    numpy.ndarray(3,3), retruns rotation matrix: theta rotation about r
+    """
     
     ## convert to unit vector
     r = np.squeeze(np.asarray(r))
@@ -113,6 +143,21 @@ def rotationmatrix(r,theta):
 
 ## OR_NCtwins calculates the OR in the R-frame
 def OR_NCtwins(K1,eta1,rPm,a,normal_pos=True):
+    """
+    Returns orientation relationship (OR) of non-conventional (NC) twins in reference frame
+    
+    Parameters
+    ----------
+    K1: numpy.ndarray(1,3), twin boundary in crystal frame
+    eta1: numpy.ndarray(3,1), shear direction in crystal frame
+    rPm: numpy.ndarray(3,3), transformation matrix (crystal frame ↔ reference frame)
+    a: float, lattice parameter of aₘ
+    normal_pos: bool, plane normal points to the twin (default true) 
+    
+    Returns
+    -------
+    numpy.ndarray(3,3), returns OR of NC twins in reference frame
+    """
     
     # convert to array
     K1 = np.squeeze(np.asarray(K1))
@@ -165,14 +210,28 @@ def OR_NCtwins(K1,eta1,rPm,a,normal_pos=True):
 #################################################################################################
 
 def applythresh(P,t=10**-9):
-    #find indices that are below threshold
+    """
+    Applies custom threshold of 9-digits precision for floating point output (list,numpy.ndarray)
+    
+    Parameters
+    ----------
+    P: float or list or numpy.ndarray(1,3), matrix where custrom precision is applied
+    t: float, the custom threshold (default 10⁻⁹)
+    
+    Returns
+    -------
+    returns P with custom precision
+    """
+    
+    ## find indices that are below threshold
     ind = np.absolute(P) < t
-    #set the value of indices to 0
+    
+    ##set the value of indices to 0
     P[ind] = 0
+    
     #return array
     return P
 
 #################################################################################################
 #################################################################################################
 #################################################################################################
-
