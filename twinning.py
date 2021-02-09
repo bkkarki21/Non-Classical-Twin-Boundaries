@@ -130,12 +130,8 @@ def rotationmatrix(r,theta):
     R = np.array([row1,row2,row3]);
     del row1, row2, row3
     
-    ## custom threshold for 0
-    thresh_i = np.absolute(R) < 10**-9;
-    R[thresh_i] = 0.;
-    
     ## return the rotation matrix
-    return R
+    return applythresh(R)
 
 #################################################################################################
 #################################################################################################
