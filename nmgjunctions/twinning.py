@@ -137,15 +137,15 @@ def rotationmatrix(r,theta):
 #################################################################################################
 #################################################################################################
 
-## OR_NCtwins calculates the OR in the R-frame
-def OR_NCtwins(K1,eta1,rPm,a,normal_pos=True):
+def OR_RefFrame(K1,eta1,C,rPm,a,normal_pos=True):
     """
-    Returns orientation relationship (OR) of non-conventional (NC) twins in reference frame
+    Returns orientation relationship (OR) of twins in reference frame
     
     Parameters
     ----------
     K1: numpy.ndarray(1,3), twin boundary in crystal frame
     eta1: numpy.ndarray(3,1), shear direction in crystal frame
+    C: numpy.ndarray(3,1), Correspondence Matrix
     rPm: numpy.ndarray(3,3), transformation matrix (crystal frame ↔ reference frame)
     a: float, lattice parameter of aₘ
     normal_pos: bool, plane normal points to the twin (default true) 
@@ -168,9 +168,6 @@ def OR_NCtwins(K1,eta1,rPm,a,normal_pos=True):
     ## metric tensor
     X = rPm * a #revert the scale used in rPm
     G = X.T @ X
-    
-    ## correspondence matrix:
-    C = np.array([[0,-1,0],[1,0,0],[0,0,1]])
     
     ## calculate shear
     s = np.sqrt(np.trace(C.T @ G @ C @ inv(G))-3)
