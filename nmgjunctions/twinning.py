@@ -230,3 +230,68 @@ def applythresh(P,t=10**-9):
 #################################################################################################
 #################################################################################################
 #################################################################################################
+
+def ShearMatrix_Ref(K1,eta1,C,rPm,a,normal_pos=True):
+    """
+    Returns orientation relationship (OR) of twins in reference frame
+    
+    Parameters
+    ----------
+    K1: numpy.ndarray(1,3), twin boundary in crystal frame
+    eta1: numpy.ndarray(3,1), shear direction in crystal frame
+    C: numpy.ndarray(3,1), Correspondence Matrix
+    rPm: numpy.ndarray(3,3), transformation matrix (crystal frame ↔ reference frame)
+    a: float, lattice parameter of aₘ
+    normal_pos: bool, plane normal points to the twin (default true) 
+    
+    Returns
+    -------
+    numpy.ndarray(3,3), returns OR of NC twins in reference frame
+    """
+    
+    # convert to array
+    K1 = np.squeeze(np.asarray(K1))
+    eta1 = np.squeeze(np.asarray(eta1))
+    rPm = np.asarray(rPm)
+    
+    # convert K1 and eta1 if plane normal is not positive
+    if normal_pos == False:
+        eta1 = -eta1
+        K1 = -K1
+    
+    ## metric tensor
+    X = rPm * a #revert the scale used in rPm
+    G = X.T @ X
+    
+    ## calculate shear
+    s = np.sqrt(np.trace(C.T @ G @ C @ inv(G))-3)
+    del X,G
+    
+    ## obtain plane normal (m) and shear direction (l) in R-frame:
+    rm = K1 @ inv(rPm)
+    rm = rm / np.sqrt(rm @ rm.T) #unit vector
+    
+    rl = rPm @ eta1
+    rl = rl / np.sqrt(rl @ rl.T)
+    
+    ## shear matrix: Using einstein convention
+    rS = np.zeros([3,3]) #initialize
+    
+    #1st row
+    rS[0,0] = 1 + s * rl[0] * rm[0] #i=0,j=0
+    rS[0,1] = 0 + s * rl[0] * rm[1] #i=0,j=1
+    rS[0,2] = 0 + s * rl[0] * rm[2] #i=0,j=2
+    #2nd row
+    rS[1,0] = 0 + s * rl[1] * rm[0] #i=1,j=0
+    rS[1,1] = 1 + s * rl[1] * rm[1] #i=1,j=1
+    rS[1,2] = 0 + s * rl[1] * rm[2] #i=1,j=2
+    #3rd row
+    rS[2,0] = 0 + s * rl[2] * rm[0] #i=0,j=0
+    rS[2,1] = 0 + s * rl[2] * rm[1] #i=0,j=1
+    rS[2,2] = 1 + s * rl[2] * rm[2] #i=0,j=2
+    
+    return rS
+
+#################################################################################################
+#################################################################################################
+#################################################################################################
