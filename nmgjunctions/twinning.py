@@ -68,8 +68,8 @@ def latticevectors_ab(rPm):
     ## Quiver plot paramaters
     x = [0,0]
     y = [0,0]
-    ux = rPm[0][0:2]
-    uy = rPm[1][0:2]
+    ux = rPm[:,0][0:2]
+    uy = rPm[:,1][0:2]
     
     ## quiver plot
     ax.quiver(x,y,ux,uy,scale=2.5)
