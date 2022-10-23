@@ -1,5 +1,3 @@
-# Junction Lines - 10M Ni-Mn-Ga
+# Non-Classical Twin Boundaries
 
-Microstructural studies of $10M$ Ni-Mn-Ga have shown triple and quadruple line junctions (TLJ and QLJ, respectively). Here we implement the topological model of deformation twinning to characterize the defects of these TLJ and QLJ.
-
-Characterization of these defects allow us to investigate their role in the difference in twin boundary kinetics between *type I* and *type II* twins.
+We use the topological model to analyze recent experimental observations of non-classical twins in Ni2MnGa and demonstrate that glissile disconnections cannot form in these boundaries. Our model describes the formation of misfit-free non-classical TBs through the interaction of active disconnections of two compound twins, i.e., the twin is not formed by one simple shear but, instead, is a metastable configuration without long-range strain resulting from the impingement of two compound twins.
